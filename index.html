@@ -1,91 +1,279 @@
 <!DOCTYPE html>
+
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dla Radka ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dla Radka ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#ff9ecf,#ffd6ea);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card{
+    background:white;
+    width:90%;
+    max-width:600px;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+h1{
+    margin-bottom:25px;
+}
+
+p{
+    margin-bottom:15px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    margin:10px;
+}
+
+.yes{
+    background:#ff4d8d;
+    color:white;
+}
+
+.no{
+    background:#e0e0e0;
+}
+
+.next{
+    background:#ff4d8d;
+    color:white;
+}
+
+#status{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.heart{
+    position:fixed;
+    font-size:20px;
+    animation:fall linear forwards;
+    pointer-events:none;
+}
+
+@keyframes fall{
+    from{
+        transform:translateY(-100px);
+    }
+    to{
+        transform:translateY(110vh);
+    }
+}
+</style>
+
 </head>
 <body>
 
-    <h1>💖 Planowanie Randki 💖</h1>
+<div class="card">
 
-    <form id="randkaForm">
-        <p>
-            <label>Imię:</label><br>
-            <input type="text" id="imie" required>
-        </p>
+```
+<div id="page1" class="page active">
+    <h1>❤️ Pójdziesz ze mną na randkę? ❤️</h1>
 
-        <p>
-            <label>Data randki:</label><br>
-            <input type="date" id="data" required>
-        </p>
+    <button class="yes" onclick="showPage(2)">
+        TAK ❤️
+    </button>
 
-        <p>
-            <label>Godzina:</label><br>
-            <input type="time" id="godzina" required>
-        </p>
+    <button class="no" id="noBtn">
+        NIE
+    </button>
+</div>
 
-        <p>
-            <label>Miejsce:</label><br>
-            <input type="text" id="miejsce" required>
-        </p>
+<div id="page2" class="page">
+    <h1>📅 Kiedy masz wolny czas?</h1>
 
-        <p>
-            <label>Pomysł na randkę:</label><br>
-            <textarea id="opis" rows="4"></textarea>
-        </p>
+    <input type="date" id="data" required>
 
-        <button type="submit">Wyślij ❤️</button>
-    </form>
+    <input type="time" id="godzina" required>
 
-    <p id="status"></p>
+    <button class="next" onclick="showPage(3)">
+        Dalej ➜
+    </button>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div id="page3" class="page">
+    <h1>🎉 Co chciałbyś robić?</h1>
 
-    <script>
-        const supabaseUrl = "https://nfelpizldqrxmhcwsuzf.supabase.co";
-        const supabaseKey = "sb_publishable_zez1euNvus8MRGOdlb6wCw_1aEdG7Fm";
+    <select id="aktywnosc">
+        <option>Kino 🎬</option>
+        <option>Spacer 🌳</option>
+        <option>Restauracja 🍝</option>
+        <option>Wieczór filmowy 🍿</option>
+        <option>Planszówki 🎲</option>
+        <option>Coś spontanicznego ✨</option>
+    </select>
 
-        const client = supabase.createClient(
-            supabaseUrl,
-            supabaseKey
-        );
+    <textarea
+        id="opis"
+        rows="5"
+        placeholder="Masz własny pomysł? ❤️"
+    ></textarea>
 
-        document.getElementById("randkaForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
+    <button class="next" onclick="saveDate()">
+        Wyślij ❤️
+    </button>
+</div>
 
-            const status = document.getElementById("status");
-            status.textContent = "Zapisywanie...";
+<div id="page4" class="page">
+    <h1>💖 Dziękuję 💖</h1>
 
-            try {
-                const { data, error } = await client
-                    .from("randki")
-                    .insert([
-                        {
-                            imie: document.getElementById("imie").value,
-                            data_randki: document.getElementById("data").value,
-                            godzina: document.getElementById("godzina").value,
-                            miejsce: document.getElementById("miejsce").value,
-                            opis: document.getElementById("opis").value
-                        }
-                    ]);
+    <p>
+        Już nie mogę się doczekać naszej randki ❤️
+    </p>
 
-                if (error) {
-                    console.error(error);
-                    status.textContent = "❌ Błąd: " + error.message;
-                    return;
-                }
+    <div id="status"></div>
+</div>
+```
 
-                console.log(data);
-                status.textContent = "✅ Randka została zapisana!";
-                document.getElementById("randkaForm").reset();
+</div>
 
-            } catch (err) {
-                console.error(err);
-                status.textContent = "❌ Błąd: " + err.message;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const supabaseUrl = "https://nfelpizldqrxmhcwsuzf.supabase.co";
+const supabaseKey = "sb_publishable_zez1euNvus8MRGOdlb6wCw_1aEdG7Fm";
+
+const client = supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
+
+function showPage(page){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(el => el.classList.remove("active"));
+
+    document
+        .getElementById("page" + page)
+        .classList.add("active");
+}
+
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+
+    noBtn.style.position = "fixed";
+
+    noBtn.style.left =
+        Math.random() *
+        (window.innerWidth - 150) + "px";
+
+    noBtn.style.top =
+        Math.random() *
+        (window.innerHeight - 70) + "px";
+});
+
+async function saveDate(){
+
+    showPage(4);
+
+    const status =
+        document.getElementById("status");
+
+    status.innerHTML = "⏳ Zapisywanie...";
+
+    const { error } = await client
+        .from("randki")
+        .insert([
+            {
+                data_randki:
+                    document.getElementById("data").value,
+
+                godzina:
+                    document.getElementById("godzina").value,
+
+                aktywnosc:
+                    document.getElementById("aktywnosc").value,
+
+                opis:
+                    document.getElementById("opis").value
             }
-        });
-    </script>
+        ]);
+
+    if(error){
+
+        console.error(error);
+
+        status.innerHTML =
+            "❌ Błąd: " + error.message;
+
+        return;
+    }
+
+    status.innerHTML =
+        "✅ Wszystko zapisane ❤️";
+}
+
+setInterval(() => {
+
+    const heart =
+        document.createElement("div");
+
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+
+    heart.style.left =
+        Math.random() * 100 + "vw";
+
+    heart.style.animationDuration =
+        (Math.random() * 4 + 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 7000);
+
+}, 500);
+
+</script>
 
 </body>
 </html>
