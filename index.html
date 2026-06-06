@@ -76,6 +76,7 @@ button{
 
 .no{
     background:#e0e0e0;
+    transition:all 0.3s ease;
 }
 
 .next{
@@ -169,7 +170,11 @@ button{
     <div id="status"></div>
 </div>
 ```
+<button onclick="showDates()">
+    📅 Pokaż zapisane randki
+</button>
 
+<div id="datesList"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -197,17 +202,20 @@ function showPage(page){
 
 const noBtn = document.getElementById("noBtn");
 
-noBtn.addEventListener("mouseover", () => {
+noBtn.addEventListener("mouseenter", () => {
 
     noBtn.style.position = "fixed";
 
-    noBtn.style.left =
+    const x =
         Math.random() *
-        (window.innerWidth - 150) + "px";
+        (window.innerWidth - 150);
 
-    noBtn.style.top =
+    const y =
         Math.random() *
-        (window.innerHeight - 70) + "px";
+        (window.innerHeight - 70);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
 });
 
 async function saveDate(){
@@ -272,6 +280,48 @@ setInterval(() => {
     }, 7000);
 
 }, 500);
+
+async function showDates(){
+
+    const container =
+        document.getElementById("datesList");
+
+    container.innerHTML =
+        "Ładowanie...";
+
+    const { data, error } =
+        await client
+            .from("randki")
+            .select("*")
+            .order("id", { ascending: false });
+
+    if(error){
+        container.innerHTML =
+            "❌ " + error.message;
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(randka => {
+
+        html += `
+            <div style="
+                background:white;
+                margin:10px;
+                padding:10px;
+                border-radius:10px;
+            ">
+                <b>📅 ${randka.data_randki}</b><br>
+                🕒 ${randka.godzina}<br>
+                🎉 ${randka.aktywnosc}<br>
+                💬 ${randka.opis || "-"}
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
 
 </script>
 
