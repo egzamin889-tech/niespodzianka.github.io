@@ -155,10 +155,31 @@ button{
 .gallery img:hover{
     transform:scale(1.05);
 }
-    
+
+#lightbox{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    z-index:9999;
+
+    justify-content:center;
+    align-items:center;
+}
+
+#lightbox img{
+    max-width:95%;
+    max-height:95%;
+    border-radius:15px;
+}
 </style>
 
 </head>
+
+<div id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg">
+</div>
+    
 <body>
 
 <div class="card">
@@ -395,9 +416,26 @@ for(let i = 1; i <= 34; i++){
 
     const img = document.createElement("img");
 
-    img.src = `zdjecia/foto${i}.jpg`;
+    img.src = `zdjecia/foto${i}.jpeg`;
+    img.addEventListener("click", () => {openLightbox(img.src);
+                                         
+});
 
-    gallery.appendChild(img);
+gallery.appendChild(img);
+}
+
+function openLightbox(src){
+
+    document.getElementById("lightboxImg").src = src;
+
+    document.getElementById("lightbox").style.display =
+        "flex";
+}
+
+function closeLightbox(){
+
+    document.getElementById("lightbox").style.display =
+        "none";
 }
 
 </script>
