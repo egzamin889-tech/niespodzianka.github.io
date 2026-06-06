@@ -140,11 +140,18 @@ button{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
     gap:15px;
+    margin-top:20px;
 }
 
 .gallery img{
     width:100%;
     border-radius:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.05);
 }
     
 </style>
@@ -215,16 +222,13 @@ button{
 
     <h1>📸 Nasze wspomnienia ❤️</h1>
 
-    <div class="gallery">
-        <img src="zdjecia/foto1.jpg">
-        <img src="zdjecia/foto2.jpg">
-        <img src="zdjecia/foto3.jpg">
-        <img src="zdjecia/foto4.jpg">
-    </div>
+    <div class="gallery" id="gallery"></div>
 
     <button class="next" onclick="showPage(4)">
         ← Powrót
     </button>
+
+</div>
 
 </div>
     
@@ -381,6 +385,17 @@ async function showDates(){
     });
 
     container.innerHTML = html;
+}
+
+    const gallery = document.getElementById("gallery");
+
+for(let i = 1; i <= 34; i++){
+
+    const img = document.createElement("img");
+
+    img.src = `zdjecia/foto${i}.jpeg`;
+
+    gallery.appendChild(img);
 }
 
 </script>
