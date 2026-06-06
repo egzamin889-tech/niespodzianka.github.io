@@ -3,8 +3,80 @@
     <head>
         <title> Dla Radka </title>
         <meta charset="utf-8">
+        
     </head>
     <body>
-        <p> Hello world </p>
-    </body>
+    <h1>💖 Planowanie Randki 💖</h1>
+
+    <form id="randkaForm">
+        <p>
+            <label>Imię:</label><br>
+            <input type="text" id="imie" required>
+        </p>
+
+        <p>
+            <label>Data randki:</label><br>
+            <input type="date" id="data" required>
+        </p>
+
+        <p>
+            <label>Godzina:</label><br>
+            <input type="time" id="godzina" required>
+        </p>
+
+        <p>
+            <label>Miejsce:</label><br>
+            <input type="text" id="miejsce" required>
+        </p>
+
+        <p>
+            <label>Pomysł na randkę:</label><br>
+            <textarea id="opis" rows="4"></textarea>
+        </p>
+
+        <button type="submit">Wyślij ❤️</button>
+    </form>
+
+    <p id="status"></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const supabaseUrl = "https://nfelpizldqrxmhcwsuzf.supabase.co/rest/v1/";
+        const supabaseKey = "sb_publishable_zez1euNvus8MRGOdlb6wCw_1aEdG7Fm";
+
+        const client = supabase.createClient(
+            supabaseUrl,
+            supabaseKey
+        );
+
+        document.getElementById("randkaForm")
+            .addEventListener("submit", async (e) => {
+
+            e.preventDefault();
+
+            const status = document.getElementById("status");
+            status.textContent = "Zapisywanie...";
+
+            const { error } = await client
+                .from("randki")
+                .insert([
+                    {
+                        imie: document.getElementById("imie").value,
+                        data_randki: document.getElementById("data").value,
+                        godzina: document.getElementById("godzina").value,
+                        miejsce: document.getElementById("miejsce").value,
+                        opis: document.getElementById("opis").value
+                    }
+                ]);
+
+            if (error) {
+                status.textContent = "❌ Błąd: " + error.message;
+            } else {
+                status.textContent = "✅ Randka została zapisana!";
+                document.getElementById("randkaForm").reset();
+            }
+        });
+    </script>
+</body>
 </html>
