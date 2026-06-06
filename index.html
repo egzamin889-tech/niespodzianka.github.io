@@ -119,6 +119,33 @@ button{
 #adminBtn:hover{
     opacity:1;
 }
+
+#galleryHeart{
+    position:fixed;
+    bottom:10px;
+    left:10px;
+    font-size:18px;
+    opacity:0.2;
+    cursor:pointer;
+    transition:0.3s;
+    user-select:none;
+}
+
+#galleryHeart:hover{
+    opacity:1;
+    transform:scale(1.2);
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:15px;
+}
+
+.gallery img{
+    width:100%;
+    border-radius:15px;
+}
     
 </style>
 
@@ -183,10 +210,30 @@ button{
     </p>
 
     <div id="status"></div>
+
+    <div id="page5" class="page">
+
+    <h1>📸 Nasze wspomnienia ❤️</h1>
+
+    <div class="gallery">
+        <img src="zdjecia/foto1.jpg">
+        <img src="zdjecia/foto2.jpg">
+        <img src="zdjecia/foto3.jpg">
+        <img src="zdjecia/foto4.jpg">
+    </div>
+
+    <button class="next" onclick="showPage(4)">
+        ← Powrót
+    </button>
+
+</div>
+    
 </div>
 ```
 <div id="adminBtn" onclick="showDates()">❤️</div>
 
+<div id="galleryHeart" onclick="showPage(5)">❤️</div>
+    
 <div id="datesList"></div>
 </div>
 
