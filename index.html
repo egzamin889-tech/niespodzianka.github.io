@@ -105,6 +105,21 @@ button{
         transform:translateY(110vh);
     }
 }
+
+#adminBtn{
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    font-size:18px;
+    opacity:0.2;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#adminBtn:hover{
+    opacity:1;
+}
+    
 </style>
 
 </head>
@@ -170,9 +185,7 @@ button{
     <div id="status"></div>
 </div>
 ```
-<button onclick="showDates()">
-    📅 Pokaż zapisane randki
-</button>
+<div id="adminBtn" onclick="showDates()">❤️</div>
 
 <div id="datesList"></div>
 </div>
