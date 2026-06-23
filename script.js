@@ -65,3 +65,107 @@ function spinWheel(){
         result +
         "</b>";
 }
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+ctx.lineWidth = 4;
+ctx.lineCap = "round";
+
+let drawing = false;
+
+function getPosition(event){
+
+    const rect = canvas.getBoundingClientRect();
+
+    let clientX;
+    let clientY;
+
+    if(event.touches){
+
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+
+    }else{
+
+        clientX = event.clientX;
+        clientY = event.clientY;
+
+    }
+
+    return {
+
+        x:
+            (clientX - rect.left)
+            * (canvas.width / rect.width),
+
+        y:
+            (clientY - rect.top)
+            * (canvas.height / rect.height)
+
+    };
+}
+
+canvas.addEventListener("mousedown", () => {
+    drawing = true;
+});
+
+canvas.addEventListener("mouseup", () => {
+    drawing = false;
+    ctx.beginPath();
+});
+
+canvas.addEventListener("mouseleave", () => {
+    drawing = false;
+    ctx.beginPath();
+});
+
+canvas.addEventListener("mousemove", (e) => {
+
+    if(!drawing) return;
+
+    const pos = getPosition(e);
+
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+
+});
+
+canvas.addEventListener("touchstart", () => {
+    drawing = true;
+});
+
+canvas.addEventListener("touchend", () => {
+    drawing = false;
+    ctx.beginPath();
+});
+
+canvas.addEventListener("touchmove", (e) => {
+
+    e.preventDefault();
+
+    if(!drawing) return;
+
+    const pos = getPosition(e);
+
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+
+});
+
+function clearCanvas(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+}
