@@ -34,8 +34,14 @@ button{
 }
 
 #canvas{
-    border:2px solid pink;
+    width:100%;
+    max-width:700px;
+    height:auto;
+    border:3px solid #ff6aa2;
+    border-radius:15px;
     background:white;
+    touch-action:none;
+    cursor:crosshair;
 }
 
 #szopImg{
