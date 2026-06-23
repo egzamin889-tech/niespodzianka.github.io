@@ -1,0 +1,43 @@
+body{
+    font-family:Arial;
+    background:#ffd6ea;
+    text-align:center;
+    margin:0;
+    padding:20px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+button{
+    padding:12px;
+    margin:8px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+#gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+}
+
+#gallery img{
+    width:100%;
+    border-radius:12px;
+}
+
+#canvas{
+    border:2px solid pink;
+    background:white;
+}
+
+#szopImg{
+    max-width:250px;
+}
