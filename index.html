@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasza aplikacja ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="menu" class="page active">
+        <h1>❤️ Nasza aplikacja ❤️</h1>
+
+        <button onclick="showPage('randka')">💖 Planowanie randki</button>
+        <button onclick="showPage('rysowanie')">🎨 Tablica do rysowania</button>
+        <button onclick="showPage('szop')">🦝 Nasz szop</button>
+        <button onclick="showPage('kolo')">🎡 Koło fortuny</button>
+        <button onclick="showPage('galeria')">📸 Galeria zdjęć</button>
+    </div>
+
+    <div id="randka" class="page">
+        <h2>💖 Planowanie randki</h2>
+        <p>Tutaj później przeniesiemy Twój formularz.</p>
+        <button onclick="showPage('menu')">⬅ Powrót</button>
+    </div>
+
+    <div id="rysowanie" class="page">
+        <h2>🎨 Tablica do rysowania</h2>
+
+        <canvas id="canvas" width="500" height="300"></canvas>
+
+        <br><br>
+
+        <button onclick="showPage('menu')">⬅ Powrót</button>
+    </div>
+
+    <div id="szop" class="page">
+        <h2>🦝 Nasz szop</h2>
+
+        <img src="grafiki/szop.png" id="szopImg">
+
+        <p id="szopText">
+            Cześć! Jestem Waszym szopem ❤️
+        </p>
+
+        <button onclick="showPage('menu')">⬅ Powrót</button>
+    </div>
+
+    <div id="kolo" class="page">
+        <h2>🎡 Koło fortuny</h2>
+
+        <input
+            id="optionInput"
+            placeholder="Dodaj opcję"
+        >
+
+        <button onclick="addOption()">
+            Dodaj
+        </button>
+
+        <br><br>
+
+        <button onclick="spinWheel()">
+            🎲 Losuj
+        </button>
+
+        <p id="wheelResult"></p>
+
+        <button onclick="showPage('menu')">
+            ⬅ Powrót
+        </button>
+    </div>
+
+    <div id="galeria" class="page">
+        <h2>📸 Nasze zdjęcia</h2>
+
+        <div id="gallery"></div>
+
+        <button onclick="showPage('menu')">
+            ⬅ Powrót
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
